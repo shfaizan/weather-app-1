@@ -64,15 +64,12 @@ class Weather extends Component {
 // See https://www.robinwieruch.de/gentle-introduction-higher-order-components/
 const withLoading = Component => props =>
   <div>
-    <Component {...props} />
-    <div>
-      {props.isLoading && <span>Loading...</span>}
-    </div>
+    {props.isLoading ? <span>Loading...</span> : <Component {...props} />}
   </div>
 
 const Panel = props =>
   <div style={weatherStyles}>
-    {!props.isLoading && <Temperature {...props} />}
+    <Temperature {...props} />
   </div>
 
 const TemperatureWithLoading = compose(withLoading)(Panel)
