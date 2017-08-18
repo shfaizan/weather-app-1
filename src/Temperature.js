@@ -2,24 +2,34 @@ import React from "react"
 import PropTypes from "prop-types"
 import { round } from "./pure-functions"
 
-const Temperature = ({ temperature, condition, isCelsius, onClick }) => {
+const Temperature = ({
+  location,
+  temperature,
+  text,
+  temperatureScale,
+  onClick
+}) => {
   return (
     <div>
+      <h1>
+        {location}
+      </h1>
       <div onClick={onClick}>
         Temperature: {round(temperature)} <sup>o</sup>
-        {isCelsius ? "C" : "F"}
+        {temperatureScale}
       </div>
       <div>
-        {condition}
+        {text}
       </div>
     </div>
   )
 }
 
 Temperature.propTypes = {
+  location: PropTypes.string.isRequired,
   temperature: PropTypes.number.isRequired,
-  condition: PropTypes.string.isRequired,
-  isCelsius: PropTypes.bool.isRequired,
+  text: PropTypes.string.isRequired,
+  temperatureScale: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired
 }
 

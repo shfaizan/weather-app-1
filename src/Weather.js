@@ -6,8 +6,13 @@ class Weather extends Component {
   constructor() {
     super()
     this.state = {
+      location: {
+        name: ""
+      },
       temperature: 0,
-      condition: "",
+      condition: {
+        text: ""
+      },
       isCelsius: true
     }
     // start updating weather data
@@ -18,15 +23,16 @@ class Weather extends Component {
     clearInterval(this.timer)
   }
   loadWeatherData = () => {
-    let dummyWeatherServer = "http://127.0.01:3001/current"
+    let dummyWeatherServer = "http://127.0.01:3001/api"
     fetch(dummyWeatherServer)
       .then(resp => resp.json())
-      .then(data =>
+      .then(data => {
         this.setState({
-          temperature: data.temp_c,
-          condition: data.condition.text
+          location: data.location,
+          temperature: data.current.temp_c,
+          condition: data.current.condition
         })
-      )
+      })
       .catch(e => console.error(e))
   }
   toggleTemperatureScale = () => {
@@ -35,16 +41,18 @@ class Weather extends Component {
     })
   }
   render() {
-    let temperature = this.state.isCelsius
-      ? this.state.temperature
-      : toFahrenheit(this.state.temperature)
+    let { condition, isCelsius, temperature, location } = this.state
+    let { name } = location
+    let { text } = condition
+    let temp = isCelsius ? temperature : toFahrenheit(temperature)
     return (
       <div style={weatherStyles}>
         <Temperature
           onClick={this.toggleTemperatureScale}
-          temperature={temperature}
-          condition={this.state.condition}
-          isCelsius={this.state.isCelsius}
+          location={name}
+          temperature={temp}
+          text={text}
+          temperatureScale={isCelsius ? "C" : "F"}
         />
       </div>
     )
