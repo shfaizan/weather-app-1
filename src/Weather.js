@@ -6,15 +6,14 @@ class Weather extends Component {
   constructor() {
     super()
     this.state = {
-      location: {
-        name: ""
-      },
+      isLoading: true,
+      location: {},
       temperature: 0,
-      condition: {
-        text: ""
-      },
+      condition: {},
       isCelsius: true
     }
+  }
+  componentDidMount = () => {
     // start updating weather data
     this.loadWeatherData()
     this.timer = setInterval(this.loadWeatherData, 20000)
@@ -24,10 +23,12 @@ class Weather extends Component {
   }
   loadWeatherData = () => {
     let dummyWeatherServer = "http://127.0.01:3001/api"
+    this.setState({ isLoading: true })
     fetch(dummyWeatherServer)
       .then(resp => resp.json())
       .then(data => {
         this.setState({
+          isLoading: false,
           location: data.location,
           temperature: data.current.temp_c,
           condition: data.current.condition
@@ -41,19 +42,21 @@ class Weather extends Component {
     })
   }
   render() {
-    let { condition, isCelsius, temperature, location } = this.state
+    let { condition, isCelsius, temperature, location, isLoading } = this.state
     let { name } = location
     let { text } = condition
     let temp = isCelsius ? temperature : toFahrenheit(temperature)
     return (
       <div style={weatherStyles}>
-        <Temperature
-          onClick={this.toggleTemperatureScale}
-          location={name}
-          temperature={temp}
-          text={text}
-          temperatureScale={isCelsius ? "C" : "F"}
-        />
+        {isLoading
+          ? <span>Loading...</span>
+          : <Temperature
+            onClick={this.toggleTemperatureScale}
+            location={name}
+            temperature={temp}
+            text={text}
+            temperatureScale={isCelsius ? "C" : "F"}
+          />}
       </div>
     )
   }

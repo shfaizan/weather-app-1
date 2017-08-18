@@ -10,7 +10,7 @@ const Temperature = ({
   onClick
 }) => {
   return (
-    <div>
+    <div style={temperatureStyles}>
       <h1>
         {location}
       </h1>
@@ -23,6 +23,10 @@ const Temperature = ({
       </div>
     </div>
   )
+}
+
+let temperatureStyles = {
+  padding: "10px"
 }
 
 Temperature.propTypes = {
