@@ -13,12 +13,15 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "json-server --watch -p 3001 server/db.json",
+    "start-all": "npm-run-all --parallel server start"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
     "babel-jest": "^20.0.3",
     "eslint-plugin-prettier": "^2.2.0",
+    "npm-run-all": "^4.0.2",
     "prettier": "^1.5.3"
   }
 }

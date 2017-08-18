@@ -1,0 +1,7 @@
+{
+  "api": {
+    "id": 1,
+    "temperature": 33,
+    "isCelsius": true
+  }
+}

@@ -5,16 +5,28 @@ import { toCelsius, toFahrenheit } from "./pure-functions"
 class Weather extends Component {
   constructor() {
     super()
-    this.timer = setInterval(() => {
-      console.log("Loading weather data...")
-    }, 2000)
     this.state = {
-      temperature: 56,
+      temperature: 0,
       isCelsius: false
     }
+    // start update weather data
+    this.loadWeatherData()
+    this.timer = setInterval(this.loadWeatherData, 20000)
   }
   componentWillUnmount = () => {
     clearInterval(this.timer)
+  }
+  loadWeatherData = () => {
+    let dummyWeatherServer = "http://127.0.01:3001/api"
+    fetch(dummyWeatherServer)
+      .then(resp => resp.json())
+      .then(data =>
+        this.setState({
+          temperature: data.temperature,
+          isCelsius: data.isCelsius
+        })
+      )
+      .catch(e => console.error(e))
   }
   toggleTemperatureScale = () => {
     let temperature = this.state.isCelsius
