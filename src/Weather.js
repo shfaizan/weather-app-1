@@ -1,4 +1,6 @@
+/* eslint-disable react/prop-types */
 import React, { Component } from "react"
+import { compose } from "recompose"
 import Temperature from "./Temperature"
 import { toFahrenheit } from "./pure-functions"
 
@@ -45,22 +47,35 @@ class Weather extends Component {
     let { condition, isCelsius, temperature, location, isLoading } = this.state
     let { name } = location
     let { text } = condition
-    let temp = isCelsius ? temperature : toFahrenheit(temperature)
     return (
-      <div style={weatherStyles}>
-        {isLoading
-          ? <span>Loading...</span>
-          : <Temperature
-            onClick={this.toggleTemperatureScale}
-            location={name}
-            temperature={temp}
-            text={text}
-            temperatureScale={isCelsius ? "C" : "F"}
-          />}
-      </div>
+      <TemperatureWithLoading
+        onClick={this.toggleTemperatureScale}
+        isLoading={isLoading}
+        location={name}
+        temperature={isCelsius ? temperature : toFahrenheit(temperature)}
+        text={text}
+        temperatureScale={isCelsius ? "C" : "F"}
+      />
     )
   }
 }
+
+// For fun let's use some Higher Order Components
+// See https://www.robinwieruch.de/gentle-introduction-higher-order-components/
+const withLoading = Component => props =>
+  <div>
+    <Component {...props} />
+    <div>
+      {props.isLoading && <span>Loading...</span>}
+    </div>
+  </div>
+
+const Panel = props =>
+  <div style={weatherStyles}>
+    {!props.isLoading && <Temperature {...props} />}
+  </div>
+
+const TemperatureWithLoading = compose(withLoading)(Panel)
 
 let weatherStyles = {
   width: "400px",
