@@ -3,7 +3,6 @@ import PropTypes from "prop-types"
 import { round } from "./pure-functions"
 
 const Temperature = ({ temperature, isCelsius, onClick }) => {
-  // Round float using single digit precision
   return (
     <div>
       <div onClick={onClick}>
@@ -14,7 +13,7 @@ const Temperature = ({ temperature, isCelsius, onClick }) => {
   )
 }
 
-Temperature.proptypes = {
+Temperature.propTypes = {
   temperature: PropTypes.number.isRequired,
   isCelsius: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired
