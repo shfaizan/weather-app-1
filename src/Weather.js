@@ -20,22 +20,23 @@ class Weather extends Component {
   componentWillUnmount = () => {
     clearInterval(this.timer)
   }
-  loadWeatherData = () => {
+  loadWeatherData = async () => {
     let dummyWeatherServer = "http://127.0.01:3001/api"
     let dummyWeatherIcon = "http://127.0.0.1:3001/cloudy.png"
     this.setState({ isLoading: true })
-    fetch(dummyWeatherServer)
-      .then(resp => resp.json())
-      .then(data => {
-        this.setState({
-          isLoading: false,
-          location: data.location,
-          temperature: data.current.temp_c,
-          condition: data.current.condition,
-          icon: dummyWeatherIcon
-        })
+    try {
+      let response = await fetch(dummyWeatherServer)
+      let data = await response.json()
+      this.setState({
+        isLoading: false,
+        location: data.location,
+        temperature: data.current.temp_c,
+        condition: data.current.condition,
+        icon: dummyWeatherIcon
       })
-      .catch(e => console.error(e))
+    } catch (error) {
+      console.error(error)
+    }
   }
   toggleTemperatureScale = () => {
     this.setState({
