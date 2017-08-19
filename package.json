@@ -15,7 +15,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "server": "json-server --watch -p 3001 server/db.json",
+    "server": "json-server --watch -p 3001 server/db.json --static server/public",
     "start-all": "npm-run-all --parallel server start"
   },
   "devDependencies": {

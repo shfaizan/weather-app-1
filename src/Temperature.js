@@ -7,13 +7,18 @@ const Temperature = ({
   temperature,
   text,
   temperatureScale,
-  onClick
+  onClick,
+  icon
 }) => {
   return (
     <div style={temperatureStyles}>
       <h1>
         {location}
       </h1>
+      <div>
+        <img src={icon}
+          alt="" />
+      </div>
       <div onClick={onClick}>
         Temperature: {round(temperature)} <sup>o</sup>
         {temperatureScale}
@@ -26,7 +31,8 @@ const Temperature = ({
 }
 
 let temperatureStyles = {
-  padding: "10px"
+  marginLeft: "10px",
+  padding: "2px"
 }
 
 Temperature.propTypes = {
@@ -34,7 +40,8 @@ Temperature.propTypes = {
   temperature: PropTypes.number.isRequired,
   text: PropTypes.string.isRequired,
   temperatureScale: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  icon: PropTypes.string.isRequired
 }
 
 export default Temperature

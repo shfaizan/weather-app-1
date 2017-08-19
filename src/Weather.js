@@ -22,6 +22,7 @@ class Weather extends Component {
   }
   loadWeatherData = () => {
     let dummyWeatherServer = "http://127.0.01:3001/api"
+    let dummyWeatherIcon = "http://127.0.0.1:3001/cloudy.png"
     this.setState({ isLoading: true })
     fetch(dummyWeatherServer)
       .then(resp => resp.json())
@@ -30,7 +31,8 @@ class Weather extends Component {
           isLoading: false,
           location: data.location,
           temperature: data.current.temp_c,
-          condition: data.current.condition
+          condition: data.current.condition,
+          icon: dummyWeatherIcon
         })
       })
       .catch(e => console.error(e))
@@ -41,7 +43,14 @@ class Weather extends Component {
     })
   }
   render() {
-    let { condition, isCelsius, temperature, location, isLoading } = this.state
+    let {
+      condition,
+      isCelsius,
+      temperature,
+      location,
+      isLoading,
+      icon
+    } = this.state
     let { name } = location
     let { text } = condition
     return (
@@ -52,6 +61,7 @@ class Weather extends Component {
         temperature={isCelsius ? temperature : toFahrenheit(temperature)}
         text={text}
         temperatureScale={isCelsius ? "C" : "F"}
+        icon={icon}
       />
     )
   }
@@ -72,8 +82,8 @@ const Panel = props =>
 const TemperatureWithLoading = compose(withLoading)(Panel)
 
 let weatherStyles = {
-  width: "400px",
-  height: "200px",
+  width: "300px",
+  height: "220px",
   border: "1px solid #fdb",
   borderRadius: "3%",
   backgroundColor: "#ffd"
