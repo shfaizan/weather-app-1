@@ -5,15 +5,12 @@ import Temperature from "./Temperature"
 import { toFahrenheit } from "./pure-functions"
 
 class Weather extends Component {
-  constructor() {
-    super()
-    this.state = {
-      isLoading: true,
-      location: {},
-      temperature: 0,
-      condition: {},
-      isCelsius: true
-    }
+  state = {
+    isLoading: true,
+    location: {},
+    temperature: 0,
+    condition: {},
+    isCelsius: true
   }
   componentDidMount = () => {
     // start updating weather data
