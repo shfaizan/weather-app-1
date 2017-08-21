@@ -6,28 +6,78 @@ const Temperature = ({
   location,
   temperature,
   text,
-  temperatureScale,
+  isCelsius,
   onClick,
   icon
 }) => {
   return (
     <div style={temperatureStyles}>
-      <h1>
-        {location}
-      </h1>
-      <div>
-        <img src={icon}
-          alt="" />
+      <div style={headerBlockStyle}>
+        <h1 style={headerStyle}>
+          {location}
+        </h1>
+        <span onClick={onClick}
+          style={scalesStyles}>
+          {isCelsius
+            ? <span>
+              <b>
+                <sup>o</sup>C
+              </b>/<sup>o</sup>F
+            </span>
+            : <span>
+              <sup>o</sup>C/<b>
+                <sup>o</sup>F
+              </b>
+            </span>}
+        </span>
       </div>
-      <div onClick={onClick}>
-        Temperature: {round(temperature)} <sup>o</sup>
-        {temperatureScale}
-      </div>
-      <div>
-        {text}
+      <div style={mainStyles}>
+        <span>
+          <img src={icon}
+            alt={text} />
+        </span>
+        <span>
+          <div style={tempBlockStyles}>
+            Temperature: {round(temperature)}
+            {isCelsius
+              ? <span>
+                <sup>o</sup>C
+              </span>
+              : <span>
+                <sup>o</sup>F
+              </span>}
+          </div>
+          <div>
+            {text}
+          </div>
+        </span>
       </div>
     </div>
   )
+}
+
+let headerStyle = {
+  marginTop: "14px"
+}
+
+let scalesStyles = {
+  padding: "3px"
+}
+
+let headerBlockStyle = {
+  display: "flex",
+  justifyContent: "space-between"
+}
+
+let mainStyles = {
+  display: "flex",
+  justifyContent: "space-between"
+}
+
+let tempBlockStyles = {
+  marginTop: "5px",
+  marginRight: "18px",
+  lineHeight: "1.5"
 }
 
 let temperatureStyles = {
@@ -39,7 +89,7 @@ Temperature.propTypes = {
   location: PropTypes.string.isRequired,
   temperature: PropTypes.number.isRequired,
   text: PropTypes.string.isRequired,
-  temperatureScale: PropTypes.string.isRequired,
+  isCelsius: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
   icon: PropTypes.string.isRequired
 }

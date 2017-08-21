@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
-import React, { Component } from "react"
+import React, { PureComponent } from "react"
 import { compose } from "recompose"
 import Temperature from "./Temperature"
 import { toFahrenheit } from "./pure-functions"
 
-class Weather extends Component {
+class Weather extends PureComponent {
   state = {
     isLoading: true,
     location: {},
@@ -23,7 +23,6 @@ class Weather extends Component {
   loadWeatherData = async () => {
     let dummyWeatherServer = "http://127.0.01:3001/api"
     let dummyWeatherIcon = "http://127.0.0.1:3001/cloudy.png"
-    this.setState({ isLoading: true })
     try {
       let response = await fetch(dummyWeatherServer)
       let data = await response.json()
@@ -61,7 +60,7 @@ class Weather extends Component {
         location={name}
         temperature={isCelsius ? temperature : toFahrenheit(temperature)}
         text={text}
-        temperatureScale={isCelsius ? "C" : "F"}
+        isCelsius={isCelsius}
         icon={icon}
       />
     )
@@ -84,7 +83,7 @@ const TemperatureWithLoading = compose(withLoading)(Panel)
 
 let weatherStyles = {
   width: "300px",
-  height: "220px",
+  height: "150px",
   border: "1px solid #fdb",
   borderRadius: "3%",
   backgroundColor: "#ffd"
