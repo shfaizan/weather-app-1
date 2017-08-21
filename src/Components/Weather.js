@@ -2,8 +2,8 @@
 import React, { PureComponent } from "react"
 import { compose } from "recompose"
 import Temperature from "./Temperature"
-import { toFahrenheit } from "./pure-functions"
-import apiKey from "./key-info/apixu"
+import { toFahrenheit } from "../pure-functions"
+import apiKey from "../key-info/apixu"
 
 class Weather extends PureComponent {
   state = {
