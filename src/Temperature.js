@@ -76,7 +76,7 @@ let mainStyles = {
 
 let tempBlockStyles = {
   marginTop: "5px",
-  marginRight: "18px",
+  marginRight: "28px",
   lineHeight: "1.5"
 }
 

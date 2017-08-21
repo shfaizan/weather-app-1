@@ -3,6 +3,7 @@ import React, { PureComponent } from "react"
 import { compose } from "recompose"
 import Temperature from "./Temperature"
 import { toFahrenheit } from "./pure-functions"
+import apiKey from "./key-info/apixu"
 
 class Weather extends PureComponent {
   state = {
@@ -15,23 +16,26 @@ class Weather extends PureComponent {
   componentDidMount = () => {
     // start updating weather data
     this.loadWeatherData()
-    this.timer = setInterval(this.loadWeatherData, 20000)
+    this.timer = setInterval(this.loadWeatherData, 300000)
   }
   componentWillUnmount = () => {
     clearInterval(this.timer)
   }
+  getUrl = (city, apiKey) =>
+    `http://api.apixu.com/v1/current.json?key=${apiKey}&q=${city}`
   loadWeatherData = async () => {
-    let dummyWeatherServer = "http://127.0.01:3001/api"
-    let dummyWeatherIcon = "http://127.0.0.1:3001/cloudy.png"
+    // let dummyWeatherServer = "http://127.0.01:3001/api"
+    // let dummyWeatherIcon = "http://127.0.0.1:3001/cloudy.png"
+    let weatherServerUrl = this.getUrl("Oslo", apiKey)
     try {
-      let response = await fetch(dummyWeatherServer)
+      let response = await fetch(weatherServerUrl)
       let data = await response.json()
       this.setState({
         isLoading: false,
         location: data.location,
         temperature: data.current.temp_c,
         condition: data.current.condition,
-        icon: dummyWeatherIcon
+        icon: "http:" + data.current.condition.icon
       })
     } catch (error) {
       console.error(error)
