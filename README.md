@@ -1,12 +1,8 @@
 # How to Run the React Weather App
 
-During development the weather app was tested using a local dummy JSON server; this supports the JSON data format used by the APIXU weather service. To run both the front-end and dummy server use the command:
+The Weather App displays the weather at the user's current location (depending of the browser's permission settings). It fetches live weather data from the [APIXU](http://www.apixu.com) weather service.
 
-```
-yarn start-all
-```
-
-However, the app is now fetches live weather data from the [APIXU](http://www.apixu.com) weather service. So to run the app, sign up to get your own API key - copying it into the source directory - then simply type the yarn command:
+Before you can run the the app, you will need to sign up to get your own API key, then write this information into the _src_ directory. Afterwards, simply type the command:
 
 ```
 yarn start
@@ -14,7 +10,23 @@ yarn start
 
 Enjoy!
 
+# Development Details (Reference only)
+
+During development the weather app was tested using a local dummy JSON server. This was configured to support the JSON data format used by the APIXU weather service. 
+
+I was able to run both the front-end and local server at the same time using the command:
+
+```
+yarn start-all
+```
+
+The local JSON Server configuration used is as follows:
+
+```
+  dummyWeatherServerUrl = "http://127.0.01:3001/api"
+  dummyWeatherIcon = "http://127.0.0.1:3001/cloudy.png"
+```
+
 ## Notes
 
-1. It would be nice to allow the user to change the location!
-2. I should figure out how to hover (over the temperature scale) using React inline styling (or use something else!).
+1. I should figure out how to hover (over the temperature scale) using React inline styling (or use something else!).

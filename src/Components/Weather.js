@@ -1,16 +1,13 @@
 /* eslint-disable react/prop-types */
+/* eslint-disable no-console */
+
 import React, { PureComponent } from "react"
 import { compose } from "recompose"
+
+import getUserLocation from "../Libs/getLocation"
 import Temperature from "./Temperature"
 import { toFahrenheit } from "../Libs/pure-functions"
 import apiKey from "../key-info/apixu"
-
-/*
-  Dummy Server info:
-
-    dummyWeatherServerUrl = "http://127.0.01:3001/api"
-    dummyWeatherIcon = "http://127.0.0.1:3001/cloudy.png"
-*/
 
 class Weather extends PureComponent {
   state = {
@@ -23,17 +20,22 @@ class Weather extends PureComponent {
   componentDidMount = () => {
     // start updating weather data
     this.loadWeatherData()
-    this.timer = setInterval(this.loadWeatherData, 300000)
+    this.timer = setInterval(this.loadWeatherData, 10000)
   }
   componentWillUnmount = () => {
     clearInterval(this.timer)
   }
-  getUrl = apiKey => (lat, long) =>
-    `http://api.apixu.com/v1/current.json?key=${apiKey}&q=${lat},${long}`
+  getUrl = apiKey => (lat, long) => {
+    return `http://api.apixu.com/v1/current.json?key=${apiKey}&q=${lat},${long}`
+  }
   loadWeatherData = async () => {
-    let latitude = 55.953252
-    let longitude = -3.188267
-
+    let { latitude, longitude, error } = await getUserLocation()
+    if (error) {
+      console.warn("GPS Location Errror: ", error)
+      // if we can't get the user's location use a default position
+      latitude = 55.9485947
+      longitude = -3.1999135
+    }
     let weatherServerAtGPS = this.getUrl(apiKey)
     let weatherServerUrl = weatherServerAtGPS(latitude, longitude)
     try {
