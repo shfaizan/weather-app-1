@@ -20,7 +20,7 @@ class Weather extends PureComponent {
   componentDidMount = () => {
     // start updating weather data
     this.loadWeatherData()
-    this.timer = setInterval(this.loadWeatherData, 10000)
+    this.timer = setInterval(this.loadWeatherData, 300000)
   }
   componentWillUnmount = () => {
     clearInterval(this.timer)
@@ -29,16 +29,16 @@ class Weather extends PureComponent {
     return `http://api.apixu.com/v1/current.json?key=${apiKey}&q=${lat},${long}`
   }
   loadWeatherData = async () => {
-    let { latitude, longitude, error } = await getUserLocation()
-    if (error) {
-      console.warn("GPS Location Errror: ", error)
-      // if we can't get the user's location use a default position
-      latitude = 55.9485947
-      longitude = -3.1999135
-    }
-    let weatherServerAtGPS = this.getUrl(apiKey)
-    let weatherServerUrl = weatherServerAtGPS(latitude, longitude)
     try {
+      let { latitude, longitude, error } = await getUserLocation()
+      if (error) {
+        console.error("GPS Location Errror: ", error)
+        // if we can't get the user's location use a default position
+        latitude = 55.9485947
+        longitude = -3.1999135
+      }
+      let weatherDataForGPS = this.getUrl(apiKey)
+      let weatherServerUrl = weatherDataForGPS(latitude, longitude)
       let response = await fetch(weatherServerUrl)
       let data = await response.json()
       this.setState({

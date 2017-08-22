@@ -8,8 +8,9 @@ const getLocation = async () => {
     await new Promise((res, rej) =>
       navigator.geolocation.getCurrentPosition(
         pos => {
-          getCoordinates(pos)
-          return res()
+          latitude = pos.coords.latitude
+          longitude = pos.coords.longitude
+          res()
         },
         er => {
           getError(er)
@@ -21,11 +22,6 @@ const getLocation = async () => {
     got_location = false
     error_message = "Geolocation is not supported by this browser."
   }
-}
-
-const getCoordinates = position => {
-  latitude = position.coords.latitude
-  longitude = position.coords.longitude
 }
 
 const getError = error => {
@@ -49,11 +45,9 @@ const getError = error => {
 
 const getUserLocation = async () => {
   await getLocation()
-  if (got_location) {
-    return { latitude, longitude, error: null }
-  } else {
-    return { latitude: null, longitude: null, error: error_message }
-  }
+  return got_location
+    ? { latitude, longitude, error: null }
+    : { latitude: null, longitude: null, error: error_message }
 }
 
 export default getUserLocation
