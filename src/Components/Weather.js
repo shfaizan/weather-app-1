@@ -5,6 +5,13 @@ import Temperature from "./Temperature"
 import { toFahrenheit } from "../Libs/pure-functions"
 import apiKey from "../key-info/apixu"
 
+/*
+  Dummy Server info:
+
+    dummyWeatherServerUrl = "http://127.0.01:3001/api"
+    dummyWeatherIcon = "http://127.0.0.1:3001/cloudy.png"
+*/
+
 class Weather extends PureComponent {
   state = {
     isLoading: true,
@@ -21,12 +28,14 @@ class Weather extends PureComponent {
   componentWillUnmount = () => {
     clearInterval(this.timer)
   }
-  getUrl = (city, apiKey) =>
-    `http://api.apixu.com/v1/current.json?key=${apiKey}&q=${city}`
+  getUrl = apiKey => (lat, long) =>
+    `http://api.apixu.com/v1/current.json?key=${apiKey}&q=${lat},${long}`
   loadWeatherData = async () => {
-    // let dummyWeatherServer = "http://127.0.01:3001/api"
-    // let dummyWeatherIcon = "http://127.0.0.1:3001/cloudy.png"
-    let weatherServerUrl = this.getUrl("Oslo", apiKey)
+    let latitude = 55.953252
+    let longitude = -3.188267
+
+    let weatherServerAtGPS = this.getUrl(apiKey)
+    let weatherServerUrl = weatherServerAtGPS(latitude, longitude)
     try {
       let response = await fetch(weatherServerUrl)
       let data = await response.json()
