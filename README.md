@@ -26,7 +26,3 @@ The local JSON Server configuration used is as follows:
   dummyWeatherServerUrl = "http://127.0.01:3001/api"
   dummyWeatherIcon = "http://127.0.0.1:3001/cloudy.png"
 ```
-
-## Notes
-
-1. I should figure out how to hover (over the temperature scale) using React inline styling (or use something else!).
