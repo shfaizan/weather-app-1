@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import Radium from "radium"
 
 const TemperatureFormat = ({ onClick, isCelsius }) => {
   return (
@@ -21,7 +22,10 @@ const TemperatureFormat = ({ onClick, isCelsius }) => {
 }
 
 let scalesStyles = {
-  padding: "3px"
+  padding: "3px",
+  ":hover": {
+    cursor: "pointer"
+  }
 }
 
 TemperatureFormat.propTypes = {
@@ -29,4 +33,4 @@ TemperatureFormat.propTypes = {
   isCelsius: PropTypes.bool.isRequired
 }
 
-export default TemperatureFormat
+export default Radium(TemperatureFormat)
