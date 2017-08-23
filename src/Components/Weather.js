@@ -28,28 +28,29 @@ class Weather extends PureComponent {
   getUrl = apiKey => (lat, long) => {
     return `http://api.apixu.com/v1/current.json?key=${apiKey}&q=${lat},${long}`
   }
+  updateWithWeatherData = async (latitude, longitude) => {
+    const weatherDataForGPS = this.getUrl(apiKey)
+    const weatherServerUrl = weatherDataForGPS(latitude, longitude)
+    const response = await fetch(weatherServerUrl)
+    const data = await response.json()
+    this.setState({
+      isLoading: false,
+      location: data.location,
+      temperature: data.current.temp_c,
+      condition: data.current.condition,
+      icon: "http:" + data.current.condition.icon
+    })
+  }
   loadWeatherData = async () => {
     try {
-      let { latitude, longitude, error } = await getUserLocation()
-      if (error) {
-        console.error("GPS Location Errror: ", error)
-        // if we can't get the user's location use a default position
-        latitude = 55.9485947
-        longitude = -3.1999135
-      }
-      let weatherDataForGPS = this.getUrl(apiKey)
-      let weatherServerUrl = weatherDataForGPS(latitude, longitude)
-      let response = await fetch(weatherServerUrl)
-      let data = await response.json()
-      this.setState({
-        isLoading: false,
-        location: data.location,
-        temperature: data.current.temp_c,
-        condition: data.current.condition,
-        icon: "http:" + data.current.condition.icon
-      })
+      const { latitude, longitude } = await getUserLocation()
+      this.updateWithWeatherData(latitude, longitude)
     } catch (error) {
-      console.error(error)
+      // User denied Geolocation so use static location
+      const latitude = 55.9485947
+      const longitude = -3.1999135
+      this.updateWithWeatherData(latitude, longitude)
+      console.warn("Location Warning, reason:", error.message)
     }
   }
   toggleTemperatureScale = () => {
@@ -58,7 +59,7 @@ class Weather extends PureComponent {
     })
   }
   render() {
-    let {
+    const {
       condition,
       isCelsius,
       temperature,
@@ -66,8 +67,8 @@ class Weather extends PureComponent {
       isLoading,
       icon
     } = this.state
-    let { name } = location
-    let { text } = condition
+    const { name } = location
+    const { text } = condition
     return (
       <TemperatureWithLoading
         onClick={this.toggleTemperatureScale}
