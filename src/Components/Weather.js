@@ -4,7 +4,7 @@
 import React, { PureComponent } from "react"
 import { compose } from "recompose"
 
-import getUserLocation from "../Libs/getLocation"
+import getUserLocation from "../Libs/getUserLocation"
 import Temperature from "./Temperature"
 import { toFahrenheit } from "../Libs/pure-functions"
 import apiKey from "../key-info/apixu"
