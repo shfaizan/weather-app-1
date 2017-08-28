@@ -2,6 +2,14 @@ import React from "react"
 import PropTypes from "prop-types"
 import Radium from "radium"
 
+/**
+ * A stateless component which renders the temperature
+ * format selector.
+ * 
+ * @param {function} onClick  - toggles temperature format
+ * @param {boolean} isCelsius - current temperature scale
+ * @returns component
+ */
 const TemperatureFormat = ({ onClick, isCelsius }) => {
   return (
     <span onClick={onClick}

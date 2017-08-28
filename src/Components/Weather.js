@@ -9,6 +9,18 @@ import Temperature from "./Temperature"
 import { toFahrenheit } from "../Libs/pure-functions"
 import apiKey from "../key-info/apixu"
 
+/**
+ * The main weather component.
+ *  
+ * This component attempts to read the GPS browser location, which
+ * is subsequently used to retrieve and display weather data for 
+ * the user's current location. 
+ * If the GPS location cannot be determined, a static location is 
+ * used (for demonstration purposes) instead.
+ * 
+ * @class Weather
+ * @extends {PureComponent}
+ */
 class Weather extends PureComponent {
   state = {
     isLoading: true,

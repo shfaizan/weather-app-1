@@ -1,8 +1,10 @@
-/*
-  Gets the GPS location of the User using Navigator Geolocation.
-  
-  Throws an exception if this functionality is not supported.
-*/
+/**
+ * Gets the GPS location of the user's browser. 
+ * Throws an exception if this functionality is not supported,
+ * and propagates a PositionError is the GPS request fails.
+ * 
+ * @returns {object} - latitude and longitude 
+ */
 const getUserLocation = async () => {
   let latitude
   let longitude

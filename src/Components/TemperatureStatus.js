@@ -2,6 +2,15 @@ import React from "react"
 import PropTypes from "prop-types"
 import { round } from "../Libs/pure-functions"
 
+/**
+ * Renders the weather icon, message and current temperature.
+ * 
+ * @param {number} temperature - current temperature
+ * @param {boolean} isCelsius  - current weather scale
+ * @param {string}  text       - weather status message
+ * @param {string} icon        - weather icon url
+ * @returns component
+ */
 const TemperatureStatus = ({ temperature, isCelsius, text, icon }) => {
   return (
     <div style={mainStyles}>

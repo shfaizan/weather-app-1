@@ -4,6 +4,18 @@ import PropTypes from "prop-types"
 import Format from "./TemperatureFormat"
 import Status from "./TemperatureStatus"
 
+/**
+ * The stateless parent temperature component.
+ * 
+ * @param {string} location    - GPS location name
+ * @param {number} temperature - current temperature
+ * @param {string}  text       - weather status message
+ * @param {boolean} isCelsius  - current weather scale
+ * @param {function} onClick   - toggles temperature format
+ * @param {string} icon        - weather icon url
+ * } 
+ * @returns component
+ */
 const Temperature = ({
   location,
   temperature,
