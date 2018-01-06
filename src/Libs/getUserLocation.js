@@ -6,15 +6,14 @@
  * @returns {object} - latitude and longitude 
  */
 const getUserLocation = async () => {
-  let latitude
-  let longitude
   if (navigator.geolocation) {
-    await new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
         pos => {
-          latitude = pos.coords.latitude
-          longitude = pos.coords.longitude
-          resolve()
+          resolve({
+            latitude: pos.coords.latitude,
+            longitude: pos.coords.longitude,
+          })
         },
         er => {
           reject(er)
@@ -22,9 +21,8 @@ const getUserLocation = async () => {
       )
     })
   } else {
-    throw new Error("Geolocation is not supported by this browser.")
+    throw new Error('Geolocation is not supported by this browser.')
   }
-  return { latitude, longitude }
 }
 
 export default getUserLocation
