@@ -1,13 +1,14 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-console */
 
-import React, { PureComponent } from "react"
-import { compose } from "recompose"
+import React, { PureComponent } from 'react'
+import { compose } from 'recompose'
+import axios from 'axios'
 
-import getUserLocation from "../Libs/getUserLocation"
-import Temperature from "./Temperature"
-import { toFahrenheit } from "../Libs/pure-functions"
-import apiKey from "../key-info/apixu"
+import getUserLocation from '../Libs/getUserLocation'
+import Temperature from './Temperature'
+import { toFahrenheit } from '../Libs/pure-functions'
+import apiKey from '../key-info/apixu'
 
 /**
  * The main weather component.
@@ -27,7 +28,7 @@ class Weather extends PureComponent {
     location: {},
     temperature: 0,
     condition: {},
-    isCelsius: true
+    isCelsius: true,
   }
   componentDidMount = () => {
     // start updating weather data
@@ -38,20 +39,24 @@ class Weather extends PureComponent {
     clearInterval(this.timer)
   }
   getUrl = apiKey => (lat, long) => {
-    return `http://api.apixu.com/v1/current.json?key=${apiKey}&q=${lat},${long}`
+    return `https://api.apixu.com/v1/current.json?key=${apiKey}&q=${lat},${long}`
   }
   updateWithWeatherData = async (latitude, longitude) => {
     const weatherDataForGPS = this.getUrl(apiKey)
     const weatherServerUrl = weatherDataForGPS(latitude, longitude)
-    const response = await fetch(weatherServerUrl)
-    const data = await response.json()
-    this.setState({
-      isLoading: false,
-      location: data.location,
-      temperature: data.current.temp_c,
-      condition: data.current.condition,
-      icon: "http:" + data.current.condition.icon
-    })
+    // fetch weather data
+    try {
+      const { data } = await axios.get(weatherServerUrl)
+      this.setState({
+        isLoading: false,
+        location: data.location,
+        temperature: data.current.temp_c,
+        condition: data.current.condition,
+        icon: 'http:' + data.current.condition.icon,
+      })
+    } catch (err) {
+      console.error('Fetch failure', err)
+    }
   }
   loadWeatherData = async () => {
     try {
@@ -62,12 +67,12 @@ class Weather extends PureComponent {
       const latitude = 55.9485947
       const longitude = -3.1999135
       this.updateWithWeatherData(latitude, longitude)
-      console.warn("Location Warning, reason:", error.message)
+      console.warn('Location Warning, reason:', error.message)
     }
   }
   toggleTemperatureScale = () => {
     this.setState({
-      isCelsius: !this.state.isCelsius
+      isCelsius: !this.state.isCelsius,
     })
   }
   render() {
@@ -77,7 +82,7 @@ class Weather extends PureComponent {
       temperature,
       location,
       isLoading,
-      icon
+      icon,
     } = this.state
     const { name } = location
     const { text } = condition
@@ -110,11 +115,11 @@ const Panel = props =>
 const TemperatureWithLoading = compose(withLoading)(Panel)
 
 let weatherStyles = {
-  width: "300px",
-  height: "150px",
-  border: "1px solid #fdb",
-  borderRadius: "3%",
-  backgroundColor: "#ffd"
+  width: '300px',
+  height: '150px',
+  border: '1px solid #fdb',
+  borderRadius: '3%',
+  backgroundColor: '#ffd',
 }
 
 export default Weather

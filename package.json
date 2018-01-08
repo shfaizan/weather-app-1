@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@storybook/react": "^3.3.3",
+    "axios": "^0.17.1",
     "babel-preset-es2015": "^6.24.1",
     "prop-types": "^15.5.10",
     "radium": "^0.19.4",
@@ -17,7 +19,8 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "server": "json-server --watch -p 3001 server/db.json --static server/public",
-    "start-all": "npm-run-all --parallel server start"
+    "start-all": "npm-run-all --parallel server start",
+    "storybook": "start-storybook -p 9001 -c .storybook"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
