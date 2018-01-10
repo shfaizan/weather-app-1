@@ -34,7 +34,7 @@ class Weather extends PureComponent {
   componentDidMount = () => {
     // start updating weather data
     this.loadWeatherData()
-    this.timer = setInterval(this.loadWeatherData, 300000)
+    this.timer = setInterval(this.loadWeatherData, 30 * 60 * 1000)
   }
   componentWillUnmount = () => {
     clearInterval(this.timer)
