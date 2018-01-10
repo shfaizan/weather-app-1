@@ -8,6 +8,7 @@ import axios from 'axios'
 import getUserLocation from '../Libs/getUserLocation'
 import Temperature from './Temperature'
 import { toFahrenheit } from '../Libs/pure-functions'
+import { showWeather, findWeather } from '../Libs/background'
 import apiKey from '../key-info/apixu'
 
 /**
@@ -46,13 +47,17 @@ class Weather extends PureComponent {
     const weatherServerUrl = weatherDataForGPS(latitude, longitude)
     // fetch weather data
     try {
-      const { data } = await axios.get(weatherServerUrl)
+      const { data: { location, current } } = await axios.get(weatherServerUrl)
+      const { temp_c, condition } = current
+      const { icon, text } = condition
+      // update background image
+      showWeather(findWeather(text))
       this.setState({
         isLoading: false,
-        location: data.location,
-        temperature: data.current.temp_c,
-        condition: data.current.condition,
-        icon: 'http:' + data.current.condition.icon,
+        location,
+        temperature: temp_c,
+        condition,
+        icon: 'http:' + icon,
       })
     } catch (err) {
       console.error('Fetch failure', err)
@@ -64,8 +69,9 @@ class Weather extends PureComponent {
       this.updateWithWeatherData(latitude, longitude)
     } catch (error) {
       // User denied Geolocation so use static location
-      const latitude = 55.9485947
-      const longitude = -3.1999135
+      // const [latitude, longitude] = [55.9485947, -3.1999135] // Edinburgh
+      // const [latitude, longitude] = [48.856614, 2.3522219000000177] // Paris
+      const [latitude, longitude] = [60.192059, 24.945831] // Helsinki
       this.updateWithWeatherData(latitude, longitude)
       console.warn('Location Warning, reason:', error.message)
     }
@@ -103,7 +109,7 @@ class Weather extends PureComponent {
 // For fun let's use some Higher Order Components
 // See https://www.robinwieruch.de/gentle-introduction-higher-order-components/
 const withLoading = Component => props =>
-  <div>
+  <div style={mainStyles}>
     {props.isLoading ? <span>Loading...</span> : <Component {...props} />}
   </div>
 
@@ -114,12 +120,19 @@ const Panel = props =>
 
 const TemperatureWithLoading = compose(withLoading)(Panel)
 
+let mainStyles = {
+  height: '100vh',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+}
+
 let weatherStyles = {
   width: '300px',
   height: '150px',
   border: '1px solid #fdb',
   borderRadius: '3%',
-  backgroundColor: '#ffd',
+  backgroundColor: 'rgba(255, 255, 221,0.5)',
 }
 
 export default Weather

@@ -1,8 +1,8 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import Format from "./TemperatureFormat"
-import Status from "./TemperatureStatus"
+import Format from './TemperatureFormat'
+import Status from './TemperatureStatus'
 
 /**
  * The stateless parent temperature component.
@@ -22,7 +22,7 @@ const Temperature = ({
   text,
   isCelsius,
   onClick,
-  icon
+  icon,
 }) => {
   return (
     <div style={temperatureStyles}>
@@ -30,8 +30,7 @@ const Temperature = ({
         <h1 style={headerStyle}>
           {location}
         </h1>
-        <Format onClick={onClick}
-          isCelsius={isCelsius} />
+        <Format onClick={onClick} isCelsius={isCelsius} />
       </div>
       <Status
         temperature={temperature}
@@ -44,17 +43,17 @@ const Temperature = ({
 }
 
 let headerStyle = {
-  marginTop: "14px"
+  marginTop: '14px',
 }
 
 let headerBlockStyle = {
-  display: "flex",
-  justifyContent: "space-between"
+  display: 'flex',
+  justifyContent: 'space-between',
 }
 
 let temperatureStyles = {
-  marginLeft: "10px",
-  padding: "2px"
+  marginLeft: '10px',
+  padding: '2px',
 }
 
 Temperature.propTypes = {
@@ -63,7 +62,7 @@ Temperature.propTypes = {
   text: PropTypes.string.isRequired,
   isCelsius: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
-  icon: PropTypes.string.isRequired
+  icon: PropTypes.string.isRequired,
 }
 
 export default Temperature
