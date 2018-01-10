@@ -1,7 +1,8 @@
 {
   "name": "weather-app",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "homepage": "https://blogscot.github.io/weather-app/",
   "dependencies": {
     "@storybook/react": "^3.3.3",
     "axios": "^0.17.1",
