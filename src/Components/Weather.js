@@ -57,7 +57,7 @@ class Weather extends PureComponent {
         location,
         temperature: temp_c,
         condition,
-        icon: 'http:' + icon,
+        icon: 'https:' + icon,
       })
     } catch (err) {
       console.error('Fetch failure', err)
