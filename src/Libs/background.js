@@ -1,7 +1,10 @@
 const body = document.querySelector('body')
 
 const prefix = 'https://source.unsplash.com/'
-const dimensions = '1500x1500'
+const largeScreenDimensions = '1500x1500'
+const smallScreenDimensions = '800x800'
+const smallScreenSize = 800
+
 const weatherMap = new Map()
   .set('sun', 'T7K4aEPoGGk')
   .set('clear', 'ln5drpv_ImI')
@@ -17,9 +20,23 @@ const weatherMap = new Map()
 const weatherKeys = Array.from(weatherMap.keys())
 
 /**
- * Updates the background cover image according to given weather key
+ * Calculates the recommended image dimensions based on the current 
+ * device's screen size.
+ * 
+ * @returns {string} image dimensions
+ */
+const getDimensions = () => {
+  const { width, height } = window.screen
+  return height < smallScreenSize && width < smallScreenSize
+    ? smallScreenDimensions
+    : largeScreenDimensions
+}
+
+/**
+ * Updates the background cover image according to given weather key.
  */
 export const showWeather = (weather = 'sun') => {
+  const dimensions = getDimensions()
   if (weatherMap.has(weather)) {
     const imageId = weatherMap.get(weather)
     body.style.backgroundImage = `url(${prefix}${imageId}/${dimensions})`
@@ -27,8 +44,11 @@ export const showWeather = (weather = 'sun') => {
 }
 
 /**
- * Searches the weather conditions string for a possible matching key.
- * Returns the found key, if any.
+ * Searches the weather conditions string for a possible matching weather
+ * key.
+ * 
+ * Returns the found key. If no match is found the default image key is
+ * returned.
  * 
  * @param {string} condition the weather conditions
  */
@@ -37,5 +57,3 @@ export const findWeather = condition => {
   const result = weatherKeys.find(key => text.includes(key))
   return result ? result : 'sun' // default to sunny image
 }
-
-export default showWeather
