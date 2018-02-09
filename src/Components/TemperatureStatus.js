@@ -1,6 +1,5 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { round } from "../Libs/pure-functions"
+import React from 'react'
+import PropTypes from 'prop-types'
 
 /**
  * Renders the weather icon, message and current temperature.
@@ -15,19 +14,18 @@ const TemperatureStatus = ({ temperature, isCelsius, text, icon }) => {
   return (
     <div style={mainStyles}>
       <span>
-        <img src={icon}
-          alt={text} />
+        <img src={icon} alt={text} />
       </span>
       <span>
         <div style={tempBlockStyles}>
-          Temperature: {round(temperature)}
+          Temperature: {temperature}
           {isCelsius
             ? <span>
-              <sup>o</sup>C
-            </span>
+                <sup>o</sup>C
+              </span>
             : <span>
-              <sup>o</sup>F
-            </span>}
+                <sup>o</sup>F
+              </span>}
         </div>
         <div>
           {text}
@@ -38,21 +36,21 @@ const TemperatureStatus = ({ temperature, isCelsius, text, icon }) => {
 }
 
 let mainStyles = {
-  display: "flex",
-  justifyContent: "space-between"
+  display: 'flex',
+  justifyContent: 'space-between',
 }
 
 let tempBlockStyles = {
-  marginTop: "5px",
-  marginRight: "28px",
-  lineHeight: "1.5"
+  marginTop: '5px',
+  marginRight: '28px',
+  lineHeight: '1.5',
 }
 
 TemperatureStatus.propTypes = {
   temperature: PropTypes.number.isRequired,
   text: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
-  isCelsius: PropTypes.bool.isRequired
+  isCelsius: PropTypes.bool.isRequired,
 }
 
 export default TemperatureStatus

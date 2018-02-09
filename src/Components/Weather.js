@@ -7,7 +7,6 @@ import axios from 'axios'
 
 import getUserLocation from '../Libs/getUserLocation'
 import Temperature from './Temperature'
-import { toFahrenheit } from '../Libs/pure-functions'
 import { showWeather, findWeather } from '../Libs/background'
 import apiKey from '../key-info/apixu'
 
@@ -27,7 +26,7 @@ class Weather extends PureComponent {
   state = {
     isLoading: true,
     location: {},
-    temperature: 0,
+    temperatures: {},
     condition: {},
     isCelsius: true,
   }
@@ -48,14 +47,14 @@ class Weather extends PureComponent {
     // fetch weather data
     try {
       const { data: { location, current } } = await axios.get(weatherServerUrl)
-      const { temp_c, condition } = current
+      const { temp_c, temp_f, condition } = current
       const { icon, text } = condition
       // update background image
       showWeather(findWeather(text))
       this.setState({
         isLoading: false,
         location,
-        temperature: temp_c,
+        temperatures: { celsius: temp_c, fahrenheit: temp_f },
         condition,
         icon: 'https:' + icon,
       })
@@ -85,7 +84,7 @@ class Weather extends PureComponent {
     const {
       condition,
       isCelsius,
-      temperature,
+      temperatures,
       location,
       isLoading,
       icon,
@@ -97,7 +96,7 @@ class Weather extends PureComponent {
         onClick={this.toggleTemperatureScale}
         isLoading={isLoading}
         location={name}
-        temperature={isCelsius ? temperature : toFahrenheit(temperature)}
+        temperature={isCelsius ? temperatures.celsius : temperatures.fahrenheit}
         text={text}
         isCelsius={isCelsius}
         icon={icon}
