@@ -10,6 +10,9 @@ import Temperature from './Temperature'
 import { showWeather, findWeather } from '../Libs/background'
 import apiKey from '../key-info/apixu'
 
+import splash from './splash_img.png';
+
+
 /**
  * The main weather component.
  *  
@@ -92,25 +95,27 @@ class Weather extends PureComponent {
     const { name } = location
     const { text } = condition
     return (
-      <TemperatureWithLoading
-        onClick={this.toggleTemperatureScale}
-        isLoading={isLoading}
-        location={name}
-        temperature={isCelsius ? temperatures.celsius : temperatures.fahrenheit}
-        text={text}
-        isCelsius={isCelsius}
-        icon={icon}
-      />
+      <div style={mainStyles}>
+        <TemperatureWithLoading
+          onClick={this.toggleTemperatureScale}
+          isLoading={isLoading}
+          location={name}
+          temperature={isCelsius ? temperatures.celsius : temperatures.fahrenheit}
+          text={text}
+          isCelsius={isCelsius}
+          icon={icon}
+        />
+      </div>
+
     )
   }
 }
 
 // For fun let's use some Higher Order Components
 // See https://www.robinwieruch.de/gentle-introduction-higher-order-components/
-const withLoading = Component => props =>
-  <div style={mainStyles}>
-    {props.isLoading ? <span>Loading...</span> : <Component {...props} />}
-  </div>
+const withLoading = Component => props => (
+  <div>{props.isLoading ? <img src={splash} className="splash-logo" alt="splash" /> : <Component {...props} />}</div>
+);
 
 const Panel = props =>
   <div style={weatherStyles}>
