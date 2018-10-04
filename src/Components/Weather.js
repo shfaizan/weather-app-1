@@ -11,6 +11,7 @@ import { showWeather, findWeather } from '../Libs/background'
 import apiKey from '../key-info/apixu'
 
 import splash from './splash_img.png';
+import './App.css';
 
 
 /**
@@ -114,7 +115,7 @@ class Weather extends PureComponent {
 // For fun let's use some Higher Order Components
 // See https://www.robinwieruch.de/gentle-introduction-higher-order-components/
 const withLoading = Component => props => (
-  <div>{props.isLoading ? <img src={splash} className="splash-logo" alt="splash" /> : <Component {...props} />}</div>
+  <div>{props.isLoading ? <img src={splash} className="Splash-logo" alt="splash" /> : <Component {...props} />}</div>
 );
 
 const Panel = props =>
